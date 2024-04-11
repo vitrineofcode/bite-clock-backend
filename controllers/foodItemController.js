@@ -1,10 +1,24 @@
 // controllers/foodItemController.js
+import Joi from 'joi';
 import FoodItem from '../models/foodItem.js';
+
+// Define a Joi schema for validating food item inputs
+const foodItemSchema = Joi.object({
+  name: Joi.string().required(),
+  expirationDate: Joi.date().iso().required(),
+});
 
 // Controller function to create a new food item
 export const createFoodItem = async (req, res) => {
+  // Validate the request body
+  const { error, value } = foodItemSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.message });
+  }
+
   try {
-    const newFoodItem = new FoodItem(req.body);
+    const newFoodItem = new FoodItem(value);
     await newFoodItem.save();
     res.status(201).json(newFoodItem);
   } catch (error) {

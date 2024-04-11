@@ -1,14 +1,27 @@
 // controllers/userController.js
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import Joi from 'joi';
 import User from '../models/user.js';
 import { secretKey } from '../config.js';
 
+// Define a Joi schema for validating user inputs
+const userSchema = Joi.object({
+  username: Joi.string().required(),
+  password: Joi.string().required().min(6),
+});
 
 // Function to register a new user
 export const registerUser = async (req, res) => {
+  // Validate the request body
+  const { error, value } = userSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.message });
+  }
+
   try {
-    const { username, password } = req.body;
+    const { username, password } = value;
     const existingUser = await User.findOne({ username });
 
     if (existingUser) {

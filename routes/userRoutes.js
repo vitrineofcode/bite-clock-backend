@@ -1,7 +1,6 @@
-// routes/userRoutes.js
 import express from 'express';
-import passport from 'passport';
 import { registerUser, loginUser, logoutUser } from '../controllers/userController.js';
+import authenticateJWT from '../middleware/authenticateJWT.js';
 
 const router = express.Router();
 
@@ -12,6 +11,6 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 
 // Route to logout a user
-router.post('/logout', passport.authenticate('jwt', { session: false }), logoutUser);
+router.post('/logout', authenticateJWT, logoutUser);
 
 export default router;
