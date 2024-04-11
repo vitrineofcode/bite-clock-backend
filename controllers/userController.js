@@ -1,62 +1,55 @@
 // controllers/userController.js
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
+import { secretKey } from '../config.js';
 
-// Controller function to create a new user
-export const createUser = async (req, res) => {
+
+// Function to register a new user
+export const registerUser = async (req, res) => {
   try {
-    const newUser = new User(req.body);
+    const { username, password } = req.body;
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
 
-// Controller function to get all users
-export const getUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Controller function to get a user by ID
-export const getUserById = async (req, res) => {
+// Function to log in a user
+export const loginUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.status(200).json(user);
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ id: user._id }, secretKey, { expiresIn: '1h' });
+
+    res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Controller function to update a user by ID
-export const updateUser = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Controller function to delete a user by ID
-export const deleteUser = async (req, res) => {
-  try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    res.status(204).json();
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+// Function to log out a user
+export const logoutUser = (req, res) => {
+  res.status(200).json({ message: 'Logout successful' });
 };

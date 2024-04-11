@@ -1,22 +1,17 @@
 // routes/userRoutes.js
 import express from 'express';
-import { createUser, getUsers, getUserById, updateUser, deleteUser } from '../controllers/userController.js';
+import passport from 'passport';
+import { registerUser, loginUser, logoutUser } from '../controllers/userController.js';
 
 const router = express.Router();
 
-// Route to create a new user
-router.post('/', createUser);
+// Route to register a new user
+router.post('/register', registerUser);
 
-// Route to get all users
-router.get('/', getUsers);
+// Route to login a user
+router.post('/login', loginUser);
 
-// Route to get a user by ID
-router.get('/:id', getUserById);
-
-// Route to update a user by ID
-router.put('/:id', updateUser);
-
-// Route to delete a user by ID
-router.delete('/:id', deleteUser);
+// Route to logout a user
+router.post('/logout', passport.authenticate('jwt', { session: false }), logoutUser);
 
 export default router;
