@@ -1,22 +1,23 @@
-// models/user.js
+// import mongoose module
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+// Destructure Schema from the mongoose object
+const { Schema } = mongoose;
+
+// Create a schema
+const userSchema = new Schema({
   username: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   password: {
     type: String,
     required: true
-  },
-  foodInventory: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'FoodItem'
-  }]
+  }
 });
 
+// Create a model
 const User = mongoose.model('User', userSchema);
 
+// export the model
 export default User;
