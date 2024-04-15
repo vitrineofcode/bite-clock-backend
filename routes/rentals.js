@@ -5,11 +5,13 @@ import express from 'express';
 
 const router = express.Router();
 
+// GET all rentals
 router.get('/', async (req, res) => {
   const rentals = await Rental.find().sort('-dateOut');
   res.send(rentals);
 });
 
+// POST a new rental
 router.post('/', async (req, res) => {
   const { error } = validateRental(req.body);
   if (error) return res.status(400).send(`Validation error: ${error.details[0].message}`);
@@ -42,6 +44,7 @@ router.post('/', async (req, res) => {
   res.send(rental);
 });
 
+// GET a rental by ID
 router.get('/:id', async (req, res) => {
   const rental = await Rental.findById(req.params.id);
 

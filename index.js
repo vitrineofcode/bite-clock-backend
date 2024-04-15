@@ -1,9 +1,10 @@
-
 import mongoose from 'mongoose';
 import genresRouter from './routes/genres.js';
 import customersRouter from './routes/customers.js';
 import gamesRouter from './routes/games.js';
 import rentalsRouter from './routes/rentals.js';
+import usersRouter from './routes/users.js';
+import auth from './routes/auth.js';
 import express from 'express';
 
 const app = express();
@@ -18,6 +19,8 @@ app.use('/api/genres', genresRouter);
 app.use('/api/customers', customersRouter);
 app.use('/api/games', gamesRouter);
 app.use('/api/rentals', rentalsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/auth', auth);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

@@ -4,11 +4,13 @@ import express from 'express';
 
 const router = express.Router();
 
+// GET all games
 router.get('/', async (req, res) => {
   const games = await Game.find().sort('name');
   res.send(games);
 });
 
+// POST a new game
 router.post('/', async (req, res) => {
   const { error } = validateGame(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -30,6 +32,7 @@ router.post('/', async (req, res) => {
   res.send(game);
 });
 
+// PUT update a game
 router.put('/:id', async (req, res) => {
   const { error } = validateGame(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -53,6 +56,7 @@ router.put('/:id', async (req, res) => {
   res.send(game);
 });
 
+// DELETE a game
 router.delete('/:id', async (req, res) => {
   const game = await Game.findByIdAndRemove(req.params.id);
 
@@ -61,6 +65,7 @@ router.delete('/:id', async (req, res) => {
   res.send(game);
 });
 
+// GET a game by ID
 router.get('/:id', async (req, res) => {
   const game = await Game.findById(req.params.id);
 

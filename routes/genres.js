@@ -3,11 +3,13 @@ import express from 'express';
 
 const router = express.Router();
 
+// GET all genres
 router.get('/', async (req, res) => {
   const genres = await Genre.find().sort('name');
   res.send(genres);
 });
 
+// POST a new genre
 router.post('/', async (req, res) => {
   const { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -18,6 +20,7 @@ router.post('/', async (req, res) => {
   res.send(genre);
 });
 
+// PUT update a genre
 router.put('/:id', async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -31,6 +34,7 @@ router.put('/:id', async (req, res) => {
   res.send(genre);
 });
 
+// DELETE a genre
 router.delete('/:id', async (req, res) => {
   const genre = await Genre.findByIdAndRemove(req.params.id);
 
@@ -39,6 +43,7 @@ router.delete('/:id', async (req, res) => {
   res.send(genre);
 });
 
+// GET a genre by ID
 router.get('/:id', async (req, res) => {
   const genre = await Genre.findById(req.params.id);
 
