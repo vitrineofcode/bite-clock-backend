@@ -33,7 +33,9 @@ const Game = mongoose.model('Game', gameSchema);
 function validateGame(game) {
   const schema = Joi.object({
     title: Joi.string().min(5).max(255).required(),
-    genreId: Joi.string().required(),
+    genre: Joi.string().valid(
+      'Action', 'Adventure', 'RPG', 'Platformer', 'Simulation', 'Strategy', 'Sports', 'Puzzle'
+    ).required(),
     numberInStock: Joi.number().min(0).max(255).required(),
     dailyRentalRate: Joi.number().min(0).max(255).required()
   });

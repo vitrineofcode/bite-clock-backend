@@ -1,3 +1,4 @@
+import auth from '../middleware/auth.js';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import { User, validateUser } from '../models/user.js';
@@ -5,14 +6,16 @@ import express from 'express';
 
 const router = express.Router();
 
+router.get('/me', auth, async (req, res) => {
+  const user = await User.findById(req.user._id).select('-password');
+  res.send(user);
+});
+
 router.post('/', async (req, res) => {
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-  // error.details[0].message is a string that contains the error message.
 
   let user = await User.findOne({ email: req.body.email });
-
-  // If the user is already registered, return a 400 status code and a message.
   if (user) return res.status(400).send('User already registered.');
 
   user = new User(_.pick(req.body, ['name', 'email', 'password']));
@@ -21,8 +24,8 @@ router.post('/', async (req, res) => {
 
   await user.save();
 
-  // Use Lodash to pick only the name and email properties from the user object.
-  res.send(_.pick(user, ['_id', 'name', 'email']));
+  const token = user.generateAuthToken(); // Use the generateAuthToken method from the User schema
+  res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
 });
 
 export default router;

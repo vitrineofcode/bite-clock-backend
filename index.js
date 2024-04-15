@@ -6,13 +6,11 @@ import rentalsRouter from './routes/rentals.js';
 import usersRouter from './routes/users.js';
 import auth from './routes/auth.js';
 import express from 'express';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
-
-
-mongoose.connect('mongodb://localhost:27017/lackluster')
-  .then(() => console.log('Connected to MongoDB...'))
-  .catch(err => console.error('Could not connect to MongoDB...'));
 
 app.use(express.json());
 app.use('/api/genres', genresRouter);
@@ -21,6 +19,15 @@ app.use('/api/games', gamesRouter);
 app.use('/api/rentals', rentalsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/auth', auth);
+
+if (!process.env.JWT_PRIVATE_KEY) {
+  console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+  process.exit(1);
+}
+
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB...'))
+  .catch(err => console.error('Could not connect to MongoDB...'));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
