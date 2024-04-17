@@ -12,7 +12,11 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: '*',  // For development only, specify domains in production
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true  // if your front end needs to send cookies
+}));
 
 app.use(express.json());
 app.use('/api/genres', genresRouter);

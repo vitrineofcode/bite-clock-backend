@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 const genreSchema = new mongoose.Schema({
   name: {
     type: String,
-    // enum: ['Action', 'Adventure', 'RPG', 'Platformer', 'Simulation', 'Strategy', 'Sports', 'Puzzle'],
     required: true,
   }
 });
