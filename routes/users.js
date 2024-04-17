@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import { User } from '../models/user.js';
 import express from 'express';
+import signIn from '../controllers/user.js';
 
 const router = express.Router();
 
@@ -23,6 +24,10 @@ router.post('/', async (req, res) => {
 
   const token = user.generateAuthToken(); // Use the generateAuthToken method from the User schema
   res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
+});
+
+router.post('/signin', (req, res) => {
+  signIn(req, res);
 });
 
 export default router;
