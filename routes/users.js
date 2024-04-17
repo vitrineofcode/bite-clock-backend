@@ -26,8 +26,6 @@ router.post('/', async (req, res) => {
   res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
 });
 
-router.post('/signin', (req, res) => {
-  signIn(req, res);
-});
+router.post('/signin', signIn, auth);
 
 export default router;
