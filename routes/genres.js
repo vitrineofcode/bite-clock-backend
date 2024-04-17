@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST a new genre
-router.post('/', auth, async (req, res) => {
+router.post('/', async (req, res) => {
   const { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -22,7 +22,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 // PUT update a genre
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -36,7 +36,7 @@ router.put('/:id', auth, async (req, res) => {
 });
 
 // DELETE a genre
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const genre = await Genre.findByIdAndRemove(req.params.id);
 
   if (!genre) return res.status(404).send('The genre with the given ID was not found.');

@@ -15,18 +15,11 @@ router.post('/', async (req, res) => {
   const { error } = validateGame(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const genre = await Genre.findById(req.body.genreId);
+  const genre = await Genre.findById(req.body.genre);
   if (!genre) return res.status(400).send('Invalid genre.');
 
-  let game = new Game({
-    title: req.body.title,
-    genre: {
-      _id: genre._id,
-      name: genre.name
-    },
-    numberInStock: req.body.numberInStock,
-    dailyRentalRate: req.body.dailyRentalRate
-  });
+  let game = new Game(req.body);
+
   game = await game.save();
 
   res.send(game);

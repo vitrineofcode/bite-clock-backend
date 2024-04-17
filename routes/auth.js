@@ -2,6 +2,9 @@ import bcrypt from 'bcrypt';
 import express from 'express';
 import Joi from 'joi';
 import { User } from '../models/user.js';
+import jwt from 'jsonwebtoken';
+import config from 'config';
+
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -16,7 +19,7 @@ router.post('/', async (req, res) => {
   if (!validPassword) return res.status(400).send('Invalid email or password.');
 
   // Generate a JSON Web Token
-  const token = user.generateAuthToken();
+  const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
   res.send(token);
 });
 

@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const genreSchema = new mongoose.Schema({
   name: {
     type: String,
-    enum: ['Action', 'Adventure', 'RPG', 'Platformer', 'Simulation', 'Strategy', 'Sports', 'Puzzle'],
+    // enum: ['Action', 'Adventure', 'RPG', 'Platformer', 'Simulation', 'Strategy', 'Sports', 'Puzzle'],
     required: true,
   }
 });
@@ -13,7 +13,7 @@ const Genre = mongoose.model('Genre', genreSchema);
 
 function validateGenre(genre) {
   const schema = Joi.object({
-    name: Joi.string().valid(...genreSchema.enumValues).required()
+    name: Joi.string().valid().required()
   });
 
   return schema.validate(genre);

@@ -58,7 +58,8 @@ const userSchema = new mongoose.Schema({
 
 // Add a method to the User schema
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+  // 
+  const token = jwt.sign({ _id: this._id }, process.env.JWT_PRIVATE_KEY);
   return token;
 };
 
@@ -67,7 +68,11 @@ const User = mongoose.model('User', userSchema);
 
 // Function to validate user input against the schema
 function validateUser(user) {
-  return userJoiSchema.validate(user);
+  const schema = Joi.object({
+    name: Joi.string().valid().required(),
+    email: Joi.string().valid().required(),
+    password: Joi.string().valid().required()
+  });
 }
 
 // Export the User model and validateUser function
