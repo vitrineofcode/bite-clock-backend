@@ -1,21 +1,24 @@
-# Bite Clock - The Food Expiration Tracker
+# LackLuster - See our game rentals before they are gone !
 
-Bite Clock is a web application designed to help users manage their personal food inventory and reduce food waste by notifying them of upcoming expiration dates.
+LackLuster is a parody application based on BlockBuster where an admin can manage the showing of games available and the customers with rentals
 
 ## MVP Features
 
-- As a user, I want to sign up for an account so that I can securely manage my personal food inventory.
-- As a user, I want to log in to my account so that I can access my food inventory.
-- As a user, I want to log out of my account so that I can ensure my account is secure when I'm not using it.
-- As a user, I want to add food items to my inventory so that I can track what I have in stock.
-- As a user, I want to update details of food items in my inventory so that I can keep my inventory accurate.
-- As a user, I want to delete food items from my inventory so that I can remove items that I no longer have or need.
-- As a user, I want to categorize my food items by location (fridge, shelf, pantry) so that I can organize my inventory more effectively.
+- As a user, I want to log in to my account so that I can access my profile.
+- As a user, I want to be able to see all the customer so that I am aware of my clientele.
+- As a user, I want to be able to see all of the games so that I can manage my catalog.
+- As a user, I want to be able to add customers so that the list of customers stays up-to-date
+- As a user, I want to be able to add games so that our current collections is up-to-date
+- As a user, I want to be able to update customer names so that name errors or name changes can be fixed
+- As a user, I want to be able to update games so that game name errors can be fixed.
+- As a user, I want to be able delete customers so that our current clientele stays up-to-date
+- As a user, I want to be able to delete games so that our collection reflects our current inventory
 
 ## Stretch Goals
 
-- As a user, I want to receive notifications when my food items are approaching their expiration dates so that I can use or consume them before they go bad.
-- As a user, I want to see visualizations of my food inventory (e.g., pie charts of categories, bar graphs of expiring items) so that I can easily understand my stock levels and expiration trends.
+- As a user, I want to connect to a video game API so that users can see images of our games
+- As a user, I want to be able to have customers manage their own accounts
+- As a user, I want to experience a visually pleasing website so that I am compelled to use it
 
 ## Development Plan
 
@@ -26,12 +29,12 @@ Bite Clock is a web application designed to help users manage their personal foo
 
 ### Day 2: Database Schema and Food Inventory Management
 
-- Design and implement the MongoDB schema for food items.
-- Implement API endpoints for adding and viewing food items in the inventory.
+- Design and implement the MongoDB schema for the game catalog and customers.
+- Implement API endpoints for adding and viewing customers and games in the inventory.
 
 ### Day 3: Food Inventory Management
 
-- Implement API endpoints for updating and deleting food items in the inventory.
+- Implement API endpoints for updating and deleting customers and games in the inventory.
 - Test CRUD operations.
 
 ### Day 4: User Interface Development
@@ -41,7 +44,7 @@ Bite Clock is a web application designed to help users manage their personal foo
 
 ### Day 5: User Interface Development
 
-- Develop the user interface for managing the food inventory.
+- Develop the user interface for managing the customers and game inventory.
 - Implement form validation and error handling.
 
 ### Day 6: Testing and Bug Fixing
