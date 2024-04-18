@@ -1,5 +1,4 @@
-import auth from '../middleware/auth.js';
-import { Genre, validateGenre } from '../models/genre.js';
+import  Genre from '../models/genre.js';
 import express from 'express';
 
 const router = express.Router();
@@ -12,7 +11,7 @@ router.get('/', async (req, res) => {
 
 // POST a new genre
 router.post('/', async (req, res) => {
-  const { error } = validateGenre(req.body);
+  const { error } = Genre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   let genre = new Genre({ name: req.body.name });
@@ -23,7 +22,7 @@ router.post('/', async (req, res) => {
 
 // PUT update a genre
 router.put('/:id', async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = Genre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, {

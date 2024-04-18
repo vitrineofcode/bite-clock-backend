@@ -1,4 +1,3 @@
-import Joi from 'joi';
 import mongoose from 'mongoose';
 
 const customerSchema = new mongoose.Schema({
@@ -18,13 +17,4 @@ const customerSchema = new mongoose.Schema({
 
 const Customer = mongoose.model('Customer', customerSchema);
 
-function validateCustomer(customer) {
-  const schema = Joi.object({
-    name: Joi.string().min(2).max(50).required(),
-    phone: Joi.string().min(5).max(50).required()
-  });
-
-  return schema.validate(customer);
-}
-
-export { Customer, validateCustomer };
+export default Customer;
