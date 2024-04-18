@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import express from 'express';
-// import Joi from 'joi';
 import { User } from '../models/user.js';
 import jwt from 'jsonwebtoken';
 
@@ -21,14 +20,5 @@ router.post('/', async (req, res) => {
   const token = jwt.sign({ _id: user._id }, JWT_PRIVATE_KEY);
   res.send(token);
 });
-
-// function validateUser(user) {
-//   const schema = Joi.object({
-//     email: Joi.string().min(5).max(255).required().email(),
-//     password: Joi.string().min(5).max(1024).required(),
-//   });
-
-//   return schema.validate(user);
-// }
 
 export default router;
